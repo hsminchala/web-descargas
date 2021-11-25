@@ -5,6 +5,7 @@ import com.sebastian.web.model.ProgramaModel
 import com.sebastian.web.repository.DescargasRepository
 import com.sebastian.web.repository.ProgramaRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.jpa.domain.AbstractPersistable_.id
 import org.springframework.stereotype.Service
 @Service
 class ProgramaService {
@@ -12,21 +13,21 @@ class ProgramaService {
         lateinit var programaRepository: ProgramaRepository
 
 
-        fun list(): List<ProgramaModel> { //descargas
+        fun list(): List<ProgramaModel> {
 
             return programaRepository.findAll()
         }
 
 
         fun update(programa:ProgramaModel):ProgramaModel{
-            return ProgramaRepository.save(programa)
+            return programaRepository.save(programa)
         }
 
-        fun updateDescription (programa: ProgramaModel):ProgramaModel {
+        fun updateVersion (programa: ProgramaModel):ProgramaModel {
             val response = programaRepository.findById(programa.id)
                 ?: throw Exception()
             response.apply {
-                this.description=programa.description
+                this.version=programa.version
             }
             return programaRepository.save(programa)
         }

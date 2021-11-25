@@ -10,5 +10,5 @@ import javax.persistence.*
         @Id
         @Column(updatable = false)
         var id: Long? = null
-        var description: String? = null
+        var nDescarga: String? = null
 }

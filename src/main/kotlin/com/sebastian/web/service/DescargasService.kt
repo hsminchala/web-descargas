@@ -1,7 +1,6 @@
 package com.sebastian.web.service
 
 import com.sebastian.web.model.DescargasModel
-import com.sebastian.web.model.UsuarioModel
 import com.sebastian.web.repository.DescargasRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -16,15 +15,24 @@ class DescargasService {
         return descargasRepository.findAll()
     }
 
-    fun update(descargas: DescargasModel): DescargasModel {
-        return descargasRepository.save(usuario)
+    fun save (descargas: DescargasModel):DescargasModel{ //
+        if (des){
+        }
+        else{
+
+        }
+
     }
 
-    fun updateUser (descargas: DescargasModel): DescargasModel {
+    fun update(descargas: DescargasModel): DescargasModel {
+        return descargasRepository.save(descargas)
+    }
+
+    fun updateNdescarga (descargas: DescargasModel): DescargasModel {
         val response = descargasRepository.findById(descargas.id)
             ?: throw Exception()
         response.apply {
-            this.user=descargas.user
+            this.nDescarga=descargas.nDescarga
         }
         return descargasRepository.save(descargas)
     }

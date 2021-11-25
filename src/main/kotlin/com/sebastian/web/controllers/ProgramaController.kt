@@ -20,16 +20,16 @@ class ProgramaController {
 
     @PutMapping
     fun update (@RequestBody customerAll: ProgramaModel): ProgramaModel {
-        return ProgramaService.update(customerAll)
+        return programaService.update(customerAll)
     }
 
     @PatchMapping
     fun patch(@RequestBody programa: ProgramaModel): ProgramaModel {
-        return ProgramaService.updateWeight(programa)
+        return programaService.updateVersion(programa)
     }
 
     @DeleteMapping("/delete/{id}")
     fun delete (@PathVariable("id") id: Long):Boolean{
-        return ProgramaService.delete(id)
+        return programaService.delete(id)
     }
 }

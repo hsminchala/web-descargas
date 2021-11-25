@@ -9,5 +9,5 @@ class ProgramaModel {
     @Id
     @Column(updatable = false)
     var id: Long? = null
-    var description: String? = null
+    var version: String? = null
 }

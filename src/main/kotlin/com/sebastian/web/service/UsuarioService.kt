@@ -1,7 +1,7 @@
 package com.sebastian.web.service
 
-import UsuarioRepository
 import com.sebastian.web.model.UsuarioModel
+import com.sebastian.web.repository.UsuarioRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -20,12 +20,12 @@ import org.springframework.stereotype.Service
         }
 
         fun updateUser (usuario:UsuarioModel):UsuarioModel {
-            val response = usuarioRepository.findById(usuario.id)
+            val response = usuarioRepository.findById(usuario.id!!)
                 ?: throw Exception()
             response.apply {
-                this.user=usuario.user
+                this.id=usuario.id
             }
-            return usuarioRepository.save(usuario)
+            return usuarioRepository.save(response)
         }
 
         fun delete (id:Long): Boolean{

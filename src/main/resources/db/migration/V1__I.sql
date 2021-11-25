@@ -1,7 +1,6 @@
 CREATE TABLE IF NOT EXISTS usuario(
 id serial primary key,
-user varchar(20) not null,
-status boolean
+user varchar(20) not null
 );
 
 CREATE TABLE IF NOT EXISTS  programa (
@@ -12,7 +11,7 @@ version varchar(20)
 
 CREATE TABLE IF NOT EXISTS  descargas (
 id serial primary key,
-n_descarga int primary key,
+nDescarga int primary key,
 fecha_descarga varchar(40),
 programa_id int,
 foreign key (programa_id) references programa(id)
