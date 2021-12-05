@@ -8,5 +8,6 @@ import javax.persistence.*
         @Id
         @Column(updatable = false)
         var id: Long? = null
+        @Column(name = "username")
         var user: String? = null
     }

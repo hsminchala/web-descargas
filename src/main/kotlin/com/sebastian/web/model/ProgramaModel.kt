@@ -9,5 +9,7 @@ class ProgramaModel {
     @Id
     @Column(updatable = false)
     var id: Long? = null
+    @Column(name = "nombre_programa")
+    var nombrePrograma: String? = null
     var version: String? = null
 }

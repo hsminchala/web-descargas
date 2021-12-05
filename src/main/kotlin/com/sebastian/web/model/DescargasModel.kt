@@ -10,5 +10,8 @@ import javax.persistence.*
         @Id
         @Column(updatable = false)
         var id: Long? = null
+        @Column(name = "numero_descarga")
         var nDescarga: String? = null
+        @Column(name = "fecha_descarga")
+        var fechaDescarga: String? = null
 }

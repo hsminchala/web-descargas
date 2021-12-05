@@ -3,9 +3,11 @@ package com.sebastian.web.service
 import com.sebastian.web.model.UsuarioModel
 import com.sebastian.web.repository.UsuarioRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.web.server.ResponseStatusException
 
-    @Service
+@Service
     class UsuarioService {
         @Autowired
         lateinit var usuarioRepository: UsuarioRepository
@@ -15,18 +17,23 @@ import org.springframework.stereotype.Service
             return usuarioRepository.findAll()
         }
 
-        fun update(usuario:UsuarioModel):UsuarioModel{
-            return usuarioRepository.save(usuario)
+        fun update(usuarioModel:UsuarioModel):UsuarioModel{
+            return usuarioRepository.save(usuarioModel)
         }
 
         fun updateUser (usuario:UsuarioModel):UsuarioModel {
-            val response = usuarioRepository.findById(usuario.id!!)
-                ?: throw Exception()
-            response.apply {
-                this.id=usuario.id
+            try {
+                val response = usuarioRepository.findById(usuario.id)
+                    ?: throw Exception()
+                response.apply {
+                    this.id = usuario.id
+                }
+                return usuarioRepository.save(response)
+            } catch (ex:Exception){
+                throw ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Usuario no encontrado", ex)
             }
-            return usuarioRepository.save(response)
-        }
+            }
 
         fun delete (id:Long): Boolean{
             usuarioRepository.deleteById(id)

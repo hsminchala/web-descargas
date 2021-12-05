@@ -25,7 +25,7 @@ class ProgramaController {
 
     @PatchMapping
     fun patch(@RequestBody programa: ProgramaModel): ProgramaModel {
-        return programaService.updateVersion(programa)
+        return programaService.updatePrograma(programa)
     }
 
     @DeleteMapping("/delete/{id}")

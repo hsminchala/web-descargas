@@ -3,7 +3,9 @@ package com.sebastian.web.service
 import com.sebastian.web.model.DescargasModel
 import com.sebastian.web.repository.DescargasRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.web.server.ResponseStatusException
 
 @Service
 class DescargasService {
@@ -15,27 +17,24 @@ class DescargasService {
         return descargasRepository.findAll()
     }
 
-    fun save (descargas: DescargasModel):DescargasModel{ //
-        if (des){
-        }
-        else{
-
-        }
-
-    }
-
     fun update(descargas: DescargasModel): DescargasModel {
         return descargasRepository.save(descargas)
     }
 
-    fun updateNdescarga (descargas: DescargasModel): DescargasModel {
-        val response = descargasRepository.findById(descargas.id)
-            ?: throw Exception()
-        response.apply {
-            this.nDescarga=descargas.nDescarga
+        fun updateNdescarga(descargas: DescargasModel): DescargasModel {
+            try {
+                val response = descargasRepository.findById(descargas.id)
+                    ?: throw Exception()
+                response.apply {
+                    this.nDescarga = descargas.nDescarga
+                }
+                return descargasRepository.save(response)
+            } catch (ex:Exception){
+                throw ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Descargas no encontrada", ex)
+            }
         }
-        return descargasRepository.save(descargas)
-    }
+
 
     fun delete (id:Long): Boolean{
         descargasRepository.deleteById(id)
