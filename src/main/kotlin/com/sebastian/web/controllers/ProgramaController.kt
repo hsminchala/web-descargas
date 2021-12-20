@@ -1,12 +1,13 @@
 package com.sebastian.web.controllers
 
 import com.sebastian.web.model.ProgramaModel
+import com.sebastian.web.model.UsuarioModel
 import com.sebastian.web.service.ProgramaService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/entidad")
+@RequestMapping("/programa")
 @CrossOrigin(methods = [RequestMethod.GET, RequestMethod.POST, RequestMethod.PATCH, RequestMethod.PUT])
 
 class ProgramaController {
@@ -18,6 +19,11 @@ class ProgramaController {
         return programaService.list()
     }
 
+    @PostMapping
+    fun save(@RequestBody programa: ProgramaModel): ProgramaModel {
+        return programaService.save(programa)
+    }
+
     @PutMapping
     fun update (@RequestBody customerAll: ProgramaModel): ProgramaModel {
         return programaService.update(customerAll)
@@ -27,6 +33,7 @@ class ProgramaController {
     fun patch(@RequestBody programa: ProgramaModel): ProgramaModel {
         return programaService.updatePrograma(programa)
     }
+
 
     @DeleteMapping("/delete/{id}")
     fun delete (@PathVariable("id") id: Long):Boolean{

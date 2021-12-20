@@ -19,6 +19,11 @@ class UsuarioController {
         return usuarioService.list()
     }
 
+    @PostMapping
+    fun save(@RequestBody usuario:UsuarioModel):UsuarioModel{
+        return usuarioService.save(usuario)
+    }
+
     @PutMapping
     fun update (@RequestBody usuarioModel:UsuarioModel):UsuarioModel{
         return usuarioService.update(usuarioModel)

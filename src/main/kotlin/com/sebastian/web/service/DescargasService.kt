@@ -17,12 +17,18 @@ class DescargasService {
         return descargasRepository.findAll()
     }
 
+    fun save(descargas: DescargasModel):DescargasModel{
+        return descargasRepository.save(descargas)
+    }
+
     fun update(descargas: DescargasModel): DescargasModel {
         return descargasRepository.save(descargas)
     }
 
         fun updateNdescarga(descargas: DescargasModel): DescargasModel {
             try {
+                descargas.nDescarga?.trim()?.isEmpty()
+                    ?: throw java.lang.Exception("El numero de descarga no puede estar vacio")
                 val response = descargasRepository.findById(descargas.id)
                     ?: throw Exception()
                 response.apply {

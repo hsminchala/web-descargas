@@ -20,6 +20,10 @@ class ProgramaService {
             return programaRepository.findAll()
         }
 
+    fun save(programa: ProgramaModel):ProgramaModel{
+
+        return programaRepository.save(programa)
+    }
 
         fun update(programa:ProgramaModel):ProgramaModel{
             return programaRepository.save(programa)
@@ -27,6 +31,8 @@ class ProgramaService {
 
         fun updatePrograma (programa: ProgramaModel):ProgramaModel {
             try {
+                programa.nombrePrograma?.trim()?.isEmpty()
+                    ?: throw java.lang.Exception("Programa no puede estar vacio")
                 val response = programaRepository.findById(programa.id)
                     ?: throw Exception()
                 response.apply {
@@ -38,6 +44,7 @@ class ProgramaService {
                     HttpStatus.NOT_FOUND, "Programa no encontrado", ex)
             }
         }
+
 
         fun delete (id:Long): Boolean{
             programaRepository.deleteById(id)
