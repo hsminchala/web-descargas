@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.Query
 
 interface UsersRepository:JpaRepository<UsersModel, Long> {
     fun findById(id:Long?):UsersModel?
-    @Query(value = "SELECT FROM u WHERE u.username = :username", nativeQuery = true)
+    @Query(value = "SELECT FROM u WHERE u.username =:username", nativeQuery = true)
     fun findByUsername(username:String?):UsersModel?
 }
