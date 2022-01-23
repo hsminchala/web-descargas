@@ -1,5 +1,6 @@
 package com.sebastian.web.service
 
+import com.sebastian.web.model.ProgramaModel
 import com.sebastian.web.model.UsuarioModel
 import com.sebastian.web.repository.UsuarioRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,8 +22,16 @@ import org.springframework.web.server.ResponseStatusException
             return usuarioRepository.save(usuarioModel)
         }
 
-    fun save(usuario: UsuarioModel):UsuarioModel{
-        return usuarioRepository.save(usuario)
+    fun save(usuario: UsuarioModel): UsuarioModel {
+        try {
+            usuario.user?.takeIf { it.trim().isNotEmpty() }
+                ?: throw Exception("Usuario no debe ser vacio")
+            return usuarioRepository.save(usuario)
+        } catch(ex:Exception){
+            throw ResponseStatusException(
+                HttpStatus.NOT_FOUND, ex.message
+            )
+        }
     }
 
         fun updateUser (usuario:UsuarioModel):UsuarioModel {

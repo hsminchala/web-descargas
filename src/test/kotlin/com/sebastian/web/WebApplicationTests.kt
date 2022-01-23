@@ -16,6 +16,7 @@ class WebApplicationTests {
 	fun contextLoads() {
 
 	}
+
 	@Test
 	fun verifySizeWordWhenIsIncorrect(){
 		val response: Boolean = programaService.verifyWord("J")
@@ -24,7 +25,7 @@ class WebApplicationTests {
 
 	@Test
 	fun verifySizeWordWhenIsCorrect(){
-		val response: Boolean = programaService.verifyWord("Jajaja... te cache hermanito")
+		val response: Boolean = programaService.verifyWord("Dao")
 		Assertions.assertEquals(true,response)
 	}
 }

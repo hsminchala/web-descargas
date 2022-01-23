@@ -4,7 +4,6 @@ import com.sebastian.web.model.ProgramaModel
 import com.sebastian.web.repository.DescargasRepository
 import com.sebastian.web.repository.ProgramaRepository
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.jpa.domain.AbstractPersistable_.id
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
@@ -16,13 +15,23 @@ class ProgramaService {
 
 
         fun list(): List<ProgramaModel> {
-
             return programaRepository.findAll()
         }
 
-    fun save(programa: ProgramaModel):ProgramaModel{
-        return programaRepository.save(programa)
-    }
+        fun save(programa: ProgramaModel): ProgramaModel {
+            try {
+                programa.nombrePrograma?.takeIf { it.trim().isNotEmpty() }
+                    ?: throw Exception("Nombre programa no debe ser vacio")
+                    programa.version?.takeIf { it.trim().isNotEmpty() }
+                        ?: throw Exception("Version no debe ser vacio")
+
+                            return programaRepository.save(programa)
+            } catch(ex:Exception){
+                throw ResponseStatusException(
+                    HttpStatus.NOT_FOUND, ex.message
+                )
+            }
+        }
 
 
         fun update(programa:ProgramaModel):ProgramaModel{
@@ -57,4 +66,5 @@ class ProgramaService {
         }
         return true
     }
+
     }

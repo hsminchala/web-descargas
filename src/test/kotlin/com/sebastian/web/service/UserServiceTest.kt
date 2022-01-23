@@ -11,6 +11,11 @@ class UserServiceTest {
     @Autowired
     lateinit var usersService: UsersService
 
+    @Test
+    fun saveIsCorrect(){
+        val response = usersService
+    }
+
 
     @Test
     fun substractFromNextTen(){
@@ -26,7 +31,13 @@ class UserServiceTest {
 
     @Test
     fun ValidarCedula(){
-        val response = usersService.validarCedula("0150265759")
+        val response = usersService.validarCedula("0301707030")
+        Assertions.assertEquals(true,response)
+    }
+
+    @Test
+    fun ValidarCedulaFalso(){
+        val response = usersService.validarCedula("015026575")
         Assertions.assertEquals(false,response)
     }
 
