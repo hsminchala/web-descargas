@@ -25,6 +25,18 @@ class DescargasServiceTest {
     val descargasMock = Gson().fromJson(jsonString, DescargasModel::class.java)
 
 
+    val returnObject: DescargasModel = DescargasModel().apply {
+        id = 1
+        nDescarga = "45"
+        fechaDescarga = "25/01/2022"
+    }
+    val newObject: DescargasModel = DescargasModel().apply {
+        id = 1
+        nDescarga = "45"
+        fechaDescarga = "25/01/2022"
+    }
+
+
     @Test
     fun createDescarga(){
         Mockito.`when`(descargasRepository.save(Mockito.any(DescargasModel::class.java))).thenReturn(descargasMock)
@@ -42,6 +54,53 @@ class DescargasServiceTest {
             }
             Mockito.`when`(descargasRepository.save(Mockito.any(DescargasModel::class.java))).thenReturn(descargasMock)
             descargasService.save(descargasMock)
+        }
+    }
+
+    @Test
+    fun updateIsCorrect() {
+        Mockito.`when`(descargasRepository.findById(newObject.id)).thenReturn(returnObject)
+        Mockito.`when`(descargasRepository.save(Mockito.any(DescargasModel::class.java))).thenReturn(returnObject)
+        val response = descargasService.update(newObject)
+        Assertions.assertEquals(response.id, returnObject.id)
+        Assertions.assertEquals(response.nDescarga, returnObject.nDescarga)
+    }
+
+    @Test
+    fun updateIsNotExistFailed() {
+        Assertions.assertThrows(Exception::class.java) {
+            Mockito.`when`(descargasRepository.findById(returnObject.id)).thenReturn(null)
+            Mockito.`when`(descargasRepository.save(Mockito.any(DescargasModel::class.java))).thenReturn(returnObject)
+            descargasService.update(newObject)
+        }
+    }
+
+    @Test
+    fun updateIsIncorrectNumber() {
+        Assertions.assertThrows(Exception::class.java) {
+            descargasMock.apply { nDescarga = " " }
+            Mockito.`when`(descargasRepository.findById(returnObject.id)).thenReturn(descargasMock)
+            Mockito.`when`(descargasRepository.save(Mockito.any(DescargasModel::class.java))).thenReturn(descargasMock)
+            descargasService.update(descargasMock)
+        }
+    }
+
+    @Test
+    fun updateNumberDownload() {
+        Mockito.`when`(descargasRepository.findById(newObject.id)).thenReturn(returnObject)
+        Mockito.`when`(descargasRepository.save(Mockito.any(DescargasModel::class.java))).thenReturn(returnObject)
+        val response = descargasService.updateNdescarga(newObject)
+        Assertions.assertEquals(response.id, returnObject.id)
+        Assertions.assertEquals(response.nDescarga, returnObject.nDescarga)
+    }
+
+    @Test
+    fun updateIncorrectNumberDownload() {
+        Assertions.assertThrows(Exception::class.java) {
+            descargasMock.apply { nDescarga = "  " }
+            Mockito.`when`(descargasRepository.findById(returnObject.id)).thenReturn(descargasMock)
+            Mockito.`when`(descargasRepository.save(Mockito.any(DescargasModel::class.java))).thenReturn(descargasMock)
+            descargasService.updateNdescarga(descargasMock)
         }
     }
 

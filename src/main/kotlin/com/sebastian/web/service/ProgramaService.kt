@@ -35,13 +35,25 @@ class ProgramaService {
 
 
         fun update(programa:ProgramaModel):ProgramaModel{
-            return programaRepository.save(programa)
+            try {
+                programa.nombrePrograma?.takeIf { it.trim().isNotEmpty() }
+                    ?: throw Exception("No deje campos vacios")
+                programa.version?.takeIf { it.trim().isNotEmpty() }
+                    ?: throw Exception("No deje campos vacios")
+                val response = programaRepository.findById(programa.id)
+                    ?: throw Exception()
+                return programaRepository.save(response)
+            } catch (ex:Exception){
+                throw ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "No se ha actualizado, revise todos los campos", ex)
+            }
         }
+
 
         fun updatePrograma (programa: ProgramaModel):ProgramaModel {
             try {
-                programa.nombrePrograma?.trim()?.isEmpty()
-                    ?: throw java.lang.Exception("Programa no puede estar vacio")
+                programa.nombrePrograma?.takeIf { it.trim().isNotEmpty() }
+                    ?: throw Exception("Programa no puede estar vacio")
                 val response = programaRepository.findById(programa.id)
                     ?: throw Exception()
                 response.apply {
@@ -56,8 +68,16 @@ class ProgramaService {
 
 
         fun delete (id:Long): Boolean{
-            programaRepository.deleteById(id)
-            return true
+            try {
+                programaRepository.findById(id)
+                    ?: throw Exception("No existe el id")
+                programaRepository.deleteById(id!!)
+                return true
+            } catch (ex:Exception){
+                throw Exception()
+
+            }
+
         }
 
     fun verifyWord(nombrePrograma: String?):Boolean{

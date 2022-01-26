@@ -33,12 +33,23 @@ class DescargasService {
     }
 
     fun update(descargas: DescargasModel): DescargasModel {
-        return descargasRepository.save(descargas)
+        try {
+            descargas.nDescarga?.takeIf { it.trim().isNotEmpty() }
+                ?: throw Exception("Descarga no puede estar vacio")
+            descargas.fechaDescarga?.takeIf { it.trim().isNotEmpty() }
+                ?: throw Exception("Fecha no puede estar vacio")
+            val response = descargasRepository.findById(descargas.id)
+                ?: throw Exception()
+           return descargasRepository.save(response)
+        } catch (ex:Exception){
+            throw ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Programa no encontrado", ex)
+        }
     }
 
         fun updateNdescarga(descargas: DescargasModel): DescargasModel {
             try {
-                descargas.nDescarga?.trim()?.isEmpty()
+                descargas.nDescarga?.takeIf { it.trim().isNotEmpty() }
                     ?: throw java.lang.Exception("El numero de descarga no puede estar vacio")
                 val response = descargasRepository.findById(descargas.id)
                     ?: throw Exception()
